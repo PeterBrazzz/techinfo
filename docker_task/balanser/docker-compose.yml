@@ -1,0 +1,19 @@
+version: '3.8'
+services: 
+  site1: 
+    image: nginx:latest
+    volumes:
+      - /home/pyotrbrrr/scripts/docker_task/balanser/site1/:/usr/share/nginx/html/
+    restart: always
+  site2:
+    image: nginx:latest
+    volumes:
+      - /home/pyotrbrrr/scripts/docker_task/balanser/site2/:/usr/share/nginx/html/
+    restart: always
+  balanser:
+    image: nginx:latest
+    volumes:
+      - /home/pyotrbrrr/scripts/docker_task/balanser/site2/balanser.conf:/etc/nginx/conf.d/default.conf
+    restart: always
+    ports: 
+    - "80:80"

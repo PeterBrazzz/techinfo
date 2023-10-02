@@ -1,0 +1,4 @@
+FROM mysql:5.7.38
+
+ENV MYSQL_ALLOW_EMPTY_PASSWORD=yes 
+COPY ./emadb.sql /docker-entrypoint-initdb.d

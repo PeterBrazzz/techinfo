@@ -1,0 +1,1 @@
+This script will output information about all users (login, UID, GID and their groups)

@@ -1,0 +1,22 @@
+version: '3.8'
+services: 
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: testpass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress_user
+      MYSQL_PASSWORD: wordpress_password
+
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    environment: 
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: wordpress_user
+      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DB_NAME: wordpress
+    ports: 
+    - "80:80"
+

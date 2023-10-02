@@ -1,0 +1,6 @@
+FROM node:18 as build
+
+WORKDIR /front-react/
+COPY ./app/front-react/ .
+RUN npm install 
+CMD [ "npm", "start" ]

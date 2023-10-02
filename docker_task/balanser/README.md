@@ -1,0 +1,1 @@
+Run docker-compose.yml (docker-compose up) and this will create three containers(one balanser container and two containers with .html files). Then run check_ballanse.sh to check if ballanser works correct.
