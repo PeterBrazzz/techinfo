@@ -1,0 +1,2 @@
+usd.service and usd.timer should be located in /etc/systemd/system/
+usd_script_v2.0.sh should be located in /usr/local/bin/ and file should be executable 

@@ -1,0 +1,12 @@
+FROM node:18 AS build
+
+WORKDIR /app
+COPY ./simple-reactjs-app-master/package.json ./simple-reactjs-app-master/package-lock.json ./
+RUN npm install
+COPY ./simple-reactjs-app-master .
+RUN npm run build
+
+
+FROM nginx:1.21.6-alpine
+COPY --from=build /app/build/index.html /usr/share/nginx/html/
+COPY --from=build /app/build/ /usr/share/nginx/html/simple-reactjs-app

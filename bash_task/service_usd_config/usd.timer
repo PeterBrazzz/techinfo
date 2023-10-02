@@ -1,0 +1,13 @@
+# This is a config file for new service timer.  
+# The timer starts the service in 1 minute after the system starts
+# and runs this service every minute.
+
+[Unit]
+Description=Writes the current USD exchange rate to the log-file every min
+
+[Timer]
+OnBootSec=1m
+OnUnitActiveSec=1m
+
+[Install]
+WantedBy=timer.target

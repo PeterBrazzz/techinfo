@@ -1,0 +1,28 @@
+version: '3.3'
+services: 
+
+  appjs_front:
+    build:
+      context: .
+      dockerfile: ./dockerfile.front
+    restart: always
+    ports: 
+    - "80:3000"  
+
+  appjs_back:
+    build:
+      context: .
+      dockerfile: ./dockerfile.back
+    restart: always
+    ports: 
+    - "8000:8000"
+    depends_on:
+    - appjs_db
+    - appjs_front
+
+  appjs_db:
+    build:
+      context: .
+      dockerfile: ./dockerfile.db
+    ports:
+    - "3306:3306"

@@ -1,0 +1,13 @@
+# This is a config file for new service.
+# After starting the service executes the script and shuts down.
+
+[Unit]
+Description=Sends the current USD rate to a log file
+Wants=usd.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/usd_script_v2.0.sh
+
+[Install]
+WantedBy=multi-user.target

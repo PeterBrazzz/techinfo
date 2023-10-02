@@ -1,0 +1,8 @@
+FROM node:18 AS build
+
+WORKDIR /node/
+COPY ./app/node/ .
+RUN npm install  
+
+CMD [ "npm", "run", "myServer" ]
+
