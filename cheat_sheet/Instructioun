@@ -1,0 +1,259 @@
+AWS
+aws configure --profile <PROFILENAME>   ---------create profile
+export AWS_PROFILE=<profile_name>       --------- permanent use <profile_name> profile 
+
+GIT:
+git push --set-upstream origin <branch_name>  ------------ push local brunch to repo
+git branch --delete <branch_name>       ---------- delete local branch
+git reset --soft HEAD~1                 ---------- rm local commit without destroing local changes
+git switch <branch_name>                ---------- connect to the remote branch in repo
+
+Docker:
+
+before using docker on ur WSL run:
+sudo service docker start
+
+docker build -t <NAME> <WRK_DIR> ----------- build an image
+docker images ----------- show all images 
+docker ps ----------- show containers that run rn
+          -a          show all containers (running and stoped)
+          -q          show only containers id
+docker rm <CONTAINER ID>/<CONTAINER NAME>                 delete container
+docker rmi <IMAGE ID>/<IMAGE NAME>                        delete image 
+
+
+docker run -d ----------- run container in detached mode
+sudo docker run -- rm <image name>
+sudo docker run -it <image name> /bin/bash
+sudo docker run -p <port of my machine>:<port of the container> <image name>
+
+sudo docker-compose up  ------------ run docker-compose if there are only images in it
+sudo docker-compose build -------------run docker-compose if there are any custom builds for some containers
+docker build -t test:0.1 --file <way to the Dockerfile> .            
+                           ----------- создать имэдж с помощью докерфайла который находится в другой дирректории
+ docker rm -f $(docker ps -aq)
+FOR CONNECTING TO MYSQL CONTAINER
+1) run this container
+2) run      docker exec -ti CONT_ID mysql -p
+
+
+
+
+docker run -d --network app --network-alias mysql -v todo-mysql-data:/var/lib/mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=todos mysql:5.7
+docker run -dp 3000:3000 -w /app -v ${PWD}:/app --network app -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DB=todos node:12-alpine sh -c "yarn install && yarn run dev"
+mysql -h 127.0.0.1 -P 3306 -u root -p emadb
+
+
+                    MYSQL
+mysql -u <username> -p     ------------ open mysql as <username>
+mysql -p                   ------------ open mysql as root 
+
+SHOW DATABASES;
+SHOW TABLES;
+
+CREATE DATABASE <db_name>;
+USE <db_name>;
+CREATE TABLE `<table_name>` ( 'field_1' int, `field_2` varchar(20) NOT NULL )
+DROP TABLE <table_name>;
+
+Просмотреть формат таблицы в базе: DESCRIBE [table name];
+Show all table: SELECT * FROM [table name];
+
+
+
+TERRAFORM 
+
+terraform init      ------- initialize your working dirrectory. 
+                       After that terraform installs the providers (first block of .tf file) defined in the configuration. 
+          fmt       ------- print all ??formated?? fles
+          validate  ------- print all mistaces in configuratioun file(like shellcheck)
+          apply     ------- run your .tf config file
+          show      ------- show currently state of configuratioun
+          state list ------ show list of the resources in your projects state.
+
+terraform.tfstate ---- file with sencetive inform. about latest applying conf.??
+terraform fmt -recursive  --------- расставляет интервалы и пробелы там где надо 
+
+
+KUBERNeTES
+
+kubectl run nginx           --------- create and run a POD named nginx
+kubectl run nginx --image=nginx ------------- create and run POD named nginx from the Nginx image from docker hub
+kubectl run redis --image=redis --namespace=finance
+
+kubectl apply -f <podname>.yaml     ---------- create and apply new POD. -f передаём просто yaml файл который надо запуститью
+kubectl create ...
+
+kubectl describe pod <podname>  -------------- get information about the pod
+kubectl delete pod <podname>
+
+kubectl get replicationcontroller    ------------------ get list of replication templates
+
+
+kubectl create -f replicaset-definition-1.yaml ------------- create ReplicaSet
+kubectl edit rs new-replica-set ------------------ open replicaset in vim (можно сокращать и вместо replicaset писать rs)
+# if we have 3 replicas but then we modified the ReplicationSet_file to 6 replicas. We need to update the numbers of replicas:
+kubectl replace replicaset-definition.yaml
+# OR change numbers of replicas without changing the replicaset-definition.yaml by using:
+kubectl scale --replicas=6 replicaset-definition.yaml
+
+kubectl delete replicaset <name_of_the_replicaset>  ------------ delete replicaset and also delete all underlying PODs
+kubectl replace -f replicaset-definition.yaml -------- replace or update the ReplicaSet
+
+
+k run nginx --image=nginx --dry-run=client -o yaml -- sleep 1000 > nginx-pod.yaml
+
+
+KUBECTL GET 
+kubectl get deployment 
+kubectl get all 
+kubectl get pods                                   ------ get name of the pods of default namespaces 
+kubectl get pods --namespace=kube-system           ------ get name of the pods of prod namespaces
+kubectl get pod -o wide                           ------ what pod on which node
+kubectl get pods --all-namespaces       ------- list of pods from all 
+kubectl get events -o wide     -------list of what scheduler start which node 
+kubectl get pods --selector <label name>=<label_type>    ---------- get all PODs with label <label_type> in definition
+
+kubectl create -f <podname>.yaml --namespace=prod       --------- create a pod in the different namespace
+# or you can specify the namespase in the metedata: section of <podname>.yaml file
+kubectl create namespace <name of the namespace> 
+# OR create a namespace-definition.yml file and run   
+kubectl create -f namespace-definition.yml
+
+kubectl config set-context $(kubectl config current-context) --namespace=dev     ------------- permamently change current namespace to dev
+
+
+
+kubectl logs my-custom-scheduler --namespace=kube-system     ------- view the scheduler logs 
+
+
+kubectl tain node <node_name> key=value:taint-effect
+kubectl describe node <node_name> | grep taint
+
+# YPE and NAME_PREFIX. If no such resource exists, it will output details for
+# every resource that has a name prefixed with NAME_PREFIX.
+
+# Use "kubectl api-resources" for a complete list of supported resources.
+
+kubectl describe pod kube-scheduler-controlplane --namespace=kube-system
+
+kubectl taint node <node_name> <Taint_name>-
+
+kubectl create deployment elasticsearch --image=registry.k8s.io/fluentd-elasticsearch:1.20 -n kube-system --dry-run=client -o yaml > fluentd.yaml
+
+kubectl apply -f deployment.yaml      ---------- update deploument
+kubectl rolout status deployment/my-deployment   -------- check the status or rolling update
+kubectl rolout history deployment/my-deployment   ---------- check the history of updates
+kubectl rolout undo deployment/my-deployment  ------------ откатить апдейт к прошлой версии
+
+kubectl create configmap app-config --from-literal=APP_COLOR=blue
+kubectl create configmap app-config --from-file=<path_to_file>
+
+openssl x509 -in /etc/kubernetes/pki/ca.crt -text -noout    --------------- чекнуть сертификаты 
+
+
+k get csr ------ get list of certificate sighnin requests
+k certificate approve/deny <name of the request>
+
+k describe role <role_name>
+k describe rolebindings <rolebinding_name>
+
+k auth can-i <verb> <subject>
+k auth can-i delete pod --as dev-user --namespace test
+
+
+To create role and rolebinding use this:
+kubectl create role developer --namespace=default --verb=list,create,delete --resource=pods
+kubectl create rolebinding dev-user-binding --namespace=default --role=developer --user=dev-user
+
+k exec -ti <pod_name> ls /var/run/secrets/kubernetes.io/serviceaccount
+
+#To decode secret tocken:
+jq -R 'split(".") | select (length > 0) | .[0],.[1] | @base64d | fromjson' << <TOKEN>
+
+
+k create secret docker-registry <SECRET_NAME> \
+--docker-server=                    \
+--docker-username=                   \
+--docker-password=                    \
+--docker-email= 
+
+
+# Here you can find type of NetworkPolicy file.
+{
+        apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+    name: internal-policy
+    namespace: default
+    spec:
+    podSelector:
+        matchLabels:
+        name: internal
+    policyTypes:
+    - Egress
+    - Ingress
+    ingress:
+        - {}
+    egress:
+    - to:
+        - podSelector:
+            matchLabels:
+            name: mysql
+        ports:
+        - protocol: TCP
+        port: 3306
+
+    - to:
+        - podSelector:
+            matchLabels:
+            name: payroll
+        ports:
+        - protocol: TCP
+        port: 8080
+
+    - ports:
+        - port: 53
+        protocol: UDP
+        - port: 53
+        protocol: TCP
+}
+
+# Here you can find a Ingress-resource example file 
+{
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+    name: ingress-wear-watch
+    namespace: app-space
+    annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    spec:
+    rules:
+    - http:
+        paths:
+        - path: /wear
+            pathType: Prefix
+            backend:
+            service:
+            name: wear-service
+            port: 
+                number: 8080
+        - path: /watch
+            pathType: Prefix
+            backend:
+            service:
+            name: video-service
+            port:
+                number: 8080
+}
+
+Convert JSON in YAML
+kubectl get po webapp -o yaml > webapp.yaml
+
+To apply downloaded plugin use
+k apply -f <path to plugin>
+
+k create pod super-user-pod --image=busybox:1.28 --dry-run=client -o yaml -- sleep 4800 > secretpod.yaml
+k create pod -n admin1401 secret-1401 --image=busybox --dry-run=client -o yaml -- sleep 4800 > secretpod.yaml

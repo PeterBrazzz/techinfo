@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+    pre_build:
+        commands:
+            - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin ${ECR_URI}
+    build:
+        commands:
+            - docker build -t "${LAMBDA_IMAGE}" .
+            - docker tag "${LAMBDA_IMAGE}:latest" "${REPOSITORY_URI}:latest"
+            - echo "${REPOSITORY_URI}:latest"
+    post_build:
+        commands:
+            - docker push "${REPOSITORY_URI}:latest"
+            - aws lambda update-function-code --function-name "${LAMBDA_FUNCTION}" --image-uri "${REPOSITORY_URI}:latest"
