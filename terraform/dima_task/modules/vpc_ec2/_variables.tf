@@ -8,10 +8,11 @@ variable "privat_subnet_cidr" {
   type        = string
 }
 
-# variable "public_subnet_cidr" {
-#   description = "CIDR for public subnet"
-#   type        = string
-# }
+variable "public_subnet_cidr" {
+  description = "CIDR for public subnet"
+  type        = string
+  default = null
+}
 
 variable "vpc_cidr" {
   description = "CIDR block for VPC."

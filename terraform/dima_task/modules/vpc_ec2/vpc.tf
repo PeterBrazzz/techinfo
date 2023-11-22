@@ -23,15 +23,16 @@ resource "aws_subnet" "privat" {
   )
 }
 
-# resource "aws_subnet" "public" {
-#   vpc_id     = aws_vpc.this.id
-#   cidr_block = var.public_subnet_cidr
+resource "aws_subnet" "public" {
+  count = local.create_pub_subnet ? 1 : 0
+  vpc_id     = aws_vpc.this.id
+  cidr_block = var.public_subnet_cidr
 
-#   tags = merge(
-#     var.tags_subnet,
-#     var.default_tag,
-#     {
-#       Name = "${var.prefix}-pub-subnet"
-#     },
-#   )
-# }
+  tags = merge(
+    var.tags_subnet,
+    var.default_tag,
+    {
+      Name = "${var.prefix}-pub-subnet"
+    },
+  )
+}

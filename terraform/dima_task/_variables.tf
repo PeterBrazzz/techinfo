@@ -14,17 +14,18 @@ variable "london_vpc_cidr" {
   default     = "10.20.30.0/24"
 }
 
+variable "london_public_subnet_cidr" {
+  description = "CIDR block for public VPC subnet"
+  type        = string
+  default     = "10.20.30.16/28"
+}
+
 variable "london_privat_subnet_cidr" {
   description = "CIDR block for privat VPC subnet."
   type        = string
   default     = "10.20.30.0/28"
 }
 
-# variable "london_public_subnet_cidr" {
-#   description = "CIDR block for public VPC subnet"
-#   type        = string
-#   default     = "10.20.30.16/28"
-# }
 
 #########
 # Paris #
@@ -41,12 +42,6 @@ variable "paris_privat_subnet_cidr" {
   type        = string
   default     = "10.20.32.0/28"
 }
-
-# variable "paris_public_subnet_cidr" {
-#   description = "CIDR block for public VPC subnet"
-#   type        = string
-#   default     = "10.20.32.16/28"
-# }
 
 #########
 # Tags #

@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 data "aws_ami" "this" {
   most_recent      = true
   name_regex       = "Windows_Server-2022-English-Full-Base-2023.11.15"
