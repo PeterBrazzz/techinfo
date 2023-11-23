@@ -7,56 +7,79 @@ module "vpc_london" {
   profile_name       = module.iam_role.profile_name
   vpc_cidr           = var.london_vpc_cidr
   privat_subnet_cidr = var.london_privat_subnet_cidr
-  public_subnet_cidr = var.london_public_subnet_cidr
   default_tag = var.default_tag
 }
 
-module "london_inet_access" {
-  source = "./modules/inet_access"
+module "london_private_route" {
+  source = "./modules/private_net"
   providers = {
     aws = aws.eu_london
   }
   prefix                 = "${var.prefix}-london"
   vpc_id                 = module.vpc_london.vpc_id
-  public_subnet_id       = module.vpc_london.public_subnet_id
   privat_subnet_id       = module.vpc_london.privat_subnet_id
-  destination_cidr_block = var.paris_privat_subnet_cidr
-  peer_id                = module.peering_london_to_paris.peering_id
+  destination_cidr_block = var.irland_privat_subnet_cidr
+  peer_id                = module.peering_london_to_irland.peering_id
 }
 
-module "vpc_paris" {
+module "london_public_inet_access" {
+    source = "./modules/public_net"
+    providers = {
+      aws = aws.eu_london
+  }
+    prefix = "${var.prefix}-london"
+    vpc_id                 = module.vpc_london.vpc_id
+    public_subnet_cidr = var.london_public_subnet_cidr
+    privat_subnet_id       = module.vpc_london.privat_subnet_id
+    privat_routetable_id = module.london_private_route.privat_routetable_id
+    default_tag = var.default_tag
+}
+
+module "vpc_irland" {
   source = "./modules/vpc_ec2"
   providers = {
-    aws = aws.eu_paris
+    aws = aws.eu_irland
   }
-  prefix             = "${var.prefix}-paris"
+  prefix             = "${var.prefix}-irland"
   profile_name       = module.iam_role.profile_name
-  vpc_cidr           = var.paris_vpc_cidr
-  privat_subnet_cidr = var.paris_privat_subnet_cidr
+  vpc_cidr           = var.irland_vpc_cidr
+  privat_subnet_cidr = var.irland_privat_subnet_cidr
   default_tag = var.default_tag
 }
 
-module "paris_inet_access" {
-  source = "./modules/inet_access"
+module "irland_private_route" {
+  source = "./modules/private_net"
   providers = {
-    aws = aws.eu_paris
+    aws = aws.eu_irland
   }
-  prefix                 = "${var.prefix}-paris"
-  vpc_id                 = module.vpc_paris.vpc_id
-  privat_subnet_id       = module.vpc_paris.privat_subnet_id
+  prefix                 = "${var.prefix}-irland"
+  vpc_id                 = module.vpc_irland.vpc_id
+  privat_subnet_id       = module.vpc_irland.privat_subnet_id
   destination_cidr_block = var.london_privat_subnet_cidr
-  peer_id                = module.peering_london_to_paris.peering_id
+  peer_id                = module.peering_london_to_irland.peering_id
 }
 
-module "peering_london_to_paris" {
+module "peering_london_to_irland" {
   source = "./modules/peering"
-  providers = {
-    aws      = aws.eu_paris
+  # providers = {
+  #   aws      = aws.eu_london
+  #   aws.peer = aws.eu_irland
+  # }
+  ################
+  # ??? or ???
+    providers = {
+    aws      = aws.eu_irland
     aws.peer = aws.eu_london
   }
+  ################
+  
   prefix = var.prefix
   # tags_peer    = {}
   # tags_peer_accepter    = {}
-  peer_vpc_id = module.vpc_london.vpc_id
-  vpc_id      = module.vpc_paris.vpc_id
+  # peer_vpc_id = module.vpc_irland.vpc_id
+  # vpc_id      = module.vpc_london.vpc_id
+  # ??? or ???
+    peer_vpc_id = module.vpc_london.vpc_id
+    vpc_id      = module.vpc_irland.vpc_id
+  ###############
 }

@@ -23,7 +23,6 @@ resource "aws_route_table" "private" {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.this.id
   }
-
 }
 
 resource "aws_route_table_association" "private" {

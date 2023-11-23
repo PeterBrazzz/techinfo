@@ -13,11 +13,11 @@ variable "privat_subnet_id" {
   type        = string
 }
 
-variable "public_subnet_id" {
-  description = "The ID of the requester VPC."
-  type        = string
-  default = null
-}
+# variable "public_subnet_id" {
+#   description = "The ID of the requester VPC."
+#   type        = string
+#   default = null
+# }
 
 variable "peer_id" {
   description = "Peering connection id"

@@ -27,17 +27,17 @@ variable "london_privat_subnet_cidr" {
 }
 
 
-#########
-# Paris #
-#########
+##########
+# Irland #
+##########
 
-variable "paris_vpc_cidr" {
+variable "irland_vpc_cidr" {
   description = "CIDR block for VPC."
   type        = string
   default     = "10.20.32.0/24"
 }
 
-variable "paris_privat_subnet_cidr" {
+variable "irland_privat_subnet_cidr" {
   description = "CIDR block for privat VPC subnet."
   type        = string
   default     = "10.20.32.0/28"
