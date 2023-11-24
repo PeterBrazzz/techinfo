@@ -1,4 +1,4 @@
 module "iam_role" {
-  source     = "./modules/iam_role"
-  prefix     = var.prefix
+  source = "./modules/iam_role"
+  prefix = var.prefix
 }

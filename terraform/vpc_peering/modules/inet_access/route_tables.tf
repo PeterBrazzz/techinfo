@@ -24,6 +24,9 @@ resource "aws_route_table" "private" {
     nat_gateway_id = aws_nat_gateway.this.id
   }
 }
+# aws ec2 describe-images --filters Name=name,Values=al2023-ami-2023.2.20231113.0-kernel-6.1-x86_64
+# al2023-ami-2023.2.20231113.0-kernel-6.1-x86_64
+# aws ec2 describe-images --filters Name=image-id,Values=ami-07355fe79b493752d
 
 resource "aws_route_table_association" "private" {
   subnet_id      = var.privat_subnet_id

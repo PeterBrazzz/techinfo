@@ -49,8 +49,8 @@ variable "irland_privat_subnet_cidr" {
 
 
 variable "default_tag" {
-  default     = {
-  Owner = "p.brazovsky"
+  default = {
+    Owner = "p.brazovsky"
   }
   description = "Additional tag for all resources."
   type        = map(string)
