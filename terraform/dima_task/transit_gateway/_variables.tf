@@ -43,10 +43,9 @@ variable "irland_privat_subnet_cidr" {
   default     = "10.20.32.0/28"
 }
 
-
-##########
+#############
 # Stockholm #
-##########
+#############
 
 variable "stockholm_vpc_cidr" {
   description = "CIDR block for VPC."

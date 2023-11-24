@@ -1,7 +1,3 @@
-##########
-# London #
-##########
-
 module "vpc_london" {
   source = "./modules/vpc_ec2"
   providers = {
@@ -39,10 +35,6 @@ module "london_public_inet_access" {
   default_tag          = var.default_tag
 }
 
-##########
-# Irland #
-##########
-
 module "vpc_irland" {
   source = "./modules/vpc_ec2"
   providers = {
@@ -63,8 +55,6 @@ module "irland_private_route" {
   prefix                 = "${var.prefix}-irland"
   vpc_id                 = module.vpc_irland.vpc_id
   privat_subnet_id       = module.vpc_irland.privat_subnet_id
-
-  
   destination_cidr_block = var.london_privat_subnet_cidr
   peer_id                = module.peering_london_to_irland.peering_id
 }
@@ -99,17 +89,21 @@ module "stockholm_private_route" {
   peer_id                = module.peering_london_to_irland.peering_id
 }
 
+  # 
+    # module "peering_london_to_irland" {
+    #   source = "./modules/peering"
+    #   providers = {
+    #     aws      = aws.eu_irland
+    #     aws.peer = aws.eu_london
+    #   }
+    #   prefix = var.prefix
+    #   peer_vpc_id = module.vpc_london.vpc_id
+    #   vpc_id      = module.vpc_irland.vpc_id
+    # }
 
-
-
-
-# module "peering_london_to_irland" {
-#   source = "./modules/peering"
-#   providers = {
-#     aws      = aws.eu_irland
-#     aws.peer = aws.eu_london
-#   }
-#   prefix = var.prefix
-#   peer_vpc_id = module.vpc_london.vpc_id
-#   vpc_id      = module.vpc_irland.vpc_id
-# }
+module "london_transit_gtw" {
+  source = "./modules/transit_gtw"
+  providers = {
+    aws = aws.eu_london
+  }
+}

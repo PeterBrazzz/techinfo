@@ -26,7 +26,6 @@ variable "london_privat_subnet_cidr" {
   default     = "10.20.30.0/28"
 }
 
-
 ##########
 # Irland #
 ##########

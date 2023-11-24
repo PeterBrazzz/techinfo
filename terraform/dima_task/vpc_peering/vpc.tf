@@ -1,3 +1,7 @@
+##########
+# London #
+##########
+
 module "vpc_london" {
   source = "./modules/vpc_ec2"
   providers = {
@@ -35,13 +39,16 @@ module "london_public_inet_access" {
   default_tag          = var.default_tag
 }
 
+##########
+# Irland #
+##########
+
 module "vpc_irland" {
   source = "./modules/vpc_ec2"
   providers = {
     aws = aws.eu_irland
   }
   prefix             = "${var.prefix}-irland"
-  profile_name       = module.iam_role.profile_name
   vpc_cidr           = var.irland_vpc_cidr
   privat_subnet_cidr = var.irland_privat_subnet_cidr
   default_tag        = var.default_tag

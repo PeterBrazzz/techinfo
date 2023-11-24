@@ -28,6 +28,7 @@ variable "instance_type" {
 variable "profile_name" {
   description = "Name of the profile for attaching role to instance."
   type        = string
+  default = null
 }
 
 ########

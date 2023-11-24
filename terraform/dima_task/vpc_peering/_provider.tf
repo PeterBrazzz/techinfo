@@ -17,11 +17,6 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias  = "eu_paris"
-  region = "eu-west-3"
-}
-
-provider "aws" {
   alias  = "eu_irland"
   region = "eu-west-1"
 }
