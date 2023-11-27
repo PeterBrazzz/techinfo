@@ -1,5 +1,5 @@
 variable "prefix" {
-  description = "The ID of the requester VPC."
+  description = "Name of the security group."
   type        = string
 }
 
@@ -8,18 +8,8 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "public_subnet_cidr" {
-  description = "CIDR for public subnet"
-  type        = string
-  default = null
-}
-
 variable "privat_subnet_id" {
   description = "The ID of the requester VPC."
-  type        = string
-}
-
-variable "privat_routetable_id" {
   type        = string
 }
 
@@ -33,8 +23,3 @@ variable "default_tag" {
   type        = map(string)
 }
 
-variable "tags_subnet" {
-  default     = {}
-  description = "Additional resource tag for subnet."
-  type        = map(string)
-}

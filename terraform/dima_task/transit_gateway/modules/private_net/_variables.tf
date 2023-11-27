@@ -13,12 +13,12 @@ variable "privat_subnet_id" {
   type        = string
 }
 
-variable "peer_id" {
-  description = "Peering connection id"
+variable "transit_gateway_id" {
+  description = "Transit gateway id"
   type        = string
 }
 
 variable "destination_cidr_block" {
   description = "CIDR of the destination subnet"
-  type        = string
+  type        = list(string)
 }

@@ -12,3 +12,6 @@ resource "aws_instance" "this" {
     },
   )
 }
+
+# aws ec2 describe-images --filters Name=name,Values=al2023-ami-2023.2.20231113.0-kernel-6.1-x86_64
+# aws ec2 describe-images --image-ids=ami-0416c18e75bd69567
