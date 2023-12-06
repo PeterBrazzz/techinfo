@@ -1,0 +1,9 @@
+FROM jenkins/jenkins:jdk17
+
+EXPOSE 8080
+EXPOSE 50000
+VOLUME /var/jenkins_home/
+
+# /home/piotrbrrr/work/techinfo/terraform/dima_task/jenkins_task/docker/volumes/plugin_vol/:
+# sudo docker run -v /home/piotrbrrr/work/techinfo/terraform/dima_task/jenkins_task/docker/volumes/plugin_vol/:/var/jenkins_home/ -p 8080:8080 -p 50000:50000
+# 
