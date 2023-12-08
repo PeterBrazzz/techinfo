@@ -2,7 +2,7 @@ locals {
   name_prefix = "cicd-task"
   bucket      = "${local.name_prefix}-bucket"
   secret      = "${local.name_prefix}-secret"
-  ecr                              = "${var.name_prefix}-repository"
+  ecr                              = "${local.name_prefix}-repository"
   ecr_url                          = "${data.aws_caller_identity.this.account_id}.dkr.ecr.${data.aws_region.this.name}.amazonaws.com"
 }
 

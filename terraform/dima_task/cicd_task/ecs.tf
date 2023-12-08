@@ -1,6 +1,6 @@
 module "ecs_cluster" {
   source = "./modules/ecs"
-  name_prefix = var.name_prefix
+  name_prefix = local.name_prefix
 
   vpc_id = data.aws_vpc.this.id
   vpc_subnets = ["subnet-27967a5e"]
