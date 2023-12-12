@@ -51,7 +51,7 @@ variable "code_build_queued_timeout" {
 variable "code_build_source_buildspec" {
   type        = string
   description = "A path to the buildspec in the repo."
-  default     = "./automation/docker-buildspec.yaml"
+  default     = "./automation/pipeline-buildspec.yaml"
   validation {
     condition     = length(compact([null, "", var.code_build_source_buildspec])) > 0
     error_message = "CodeBuild source builspec variable must not be empty."

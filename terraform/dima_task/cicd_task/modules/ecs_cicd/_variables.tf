@@ -61,23 +61,36 @@ variable "code_pipeline_source" {
 # ECR #
 #######
 
-variable "ecr_repo_url" {
-  type = string
-  description = "ECR repository URL."
-    validation {
-    condition     = var.ecr_repo_url != null
-    error_message = "ECR repository url must not be empty."
-  }
+
+variable "code_build_environment_vars" {
+  type = list(
+    object({
+      name  = string
+      value = string
+    })
+  )
+  description = "A list of plaintext env variables is set to CodeBuild project."
+  default     = []
 }
 
-variable "ecr_repo_arn" {
-  type = string
-  description = "ECR repository ARN."
-    validation {
-    condition     = var.ecr_repo_arn != null
-    error_message = "ECR repository arn must not be empty."
-  }
-}
+
+# variable "ecr_repo_url" {
+#   type = string
+#   description = "ECR repository URL."
+#     validation {
+#     condition     = var.ecr_repo_url != null
+#     error_message = "ECR repository url must not be empty."
+#   }
+# }
+
+# variable "ecr_repo_arn" {
+#   type = string
+#   description = "ECR repository ARN."
+#     validation {
+#     condition     = var.ecr_repo_arn != null
+#     error_message = "ECR repository arn must not be empty."
+#   }
+# }
 
 #######
 # ECS #

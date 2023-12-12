@@ -94,13 +94,16 @@ data "aws_iam_policy_document" "code_pipeline_build" {
   }
 }
 
+data "aws_iam_policy" "deploy_ecs" {
+  name = "AWSCodeDeployRoleForECS"
+}
 
 data "aws_iam_policy_document" "artifact" {
   statement {
     actions = [
       "s3:ListBucket"
     ]
-    resources = [var.artifact_bucket_arn]
+    resources = [var.artifact_bucket.bucket_arn]
   }
   statement {
     actions = [
@@ -112,7 +115,7 @@ data "aws_iam_policy_document" "artifact" {
       "s3:DeleteObject",
       "s3:DeleteObjectVersion"
     ]
-    resources = ["${var.artifact_bucket_arn}/*"]
+    resources = ["${var.artifact_bucket.bucket_arn}/*"]
   }
   dynamic "statement" {
     for_each = local.s3.encrypted ? [true] : []

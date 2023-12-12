@@ -7,8 +7,23 @@ module "ecs_cicd" {
     bucket_id  = aws_s3_bucket.artifact.id
   }
 
-  vpc_id = data.aws_vpc.this.id
-  vpc_subnets = ["subnet-27967a5e"]
+  code_build_vpc_id = data.aws_vpc.this.id
+  code_build_subnet_ids = [aws_subnet.privat.id]
+
+  code_build_environment_vars = [
+    {
+      name  = "REPOSITORY_NAME"
+      value = "brazovsky-task-repository"
+    },
+    {
+      name  = "REPOSITORY_URI"
+      value = aws_ecr_repository.this.repository_url
+    },
+    {
+      name  = "ECR_URI"
+      value = local.ecr_url
+    }
+  ]
 
   code_pipeline_source = {
     codestar_connection_arn = "arn:aws:codestar-connections:eu-west-1:225050420367:connection/be2ef9c8-f754-4872-a48d-c7cee57e54a6"
@@ -16,8 +31,15 @@ module "ecs_cicd" {
     repository_branch       = "main"
   }
 
+  
+  code_build_external_iam_policies = [
+    data.aws_iam_policy_document.ecr_read.json,
+    data.aws_iam_policy_document.ecr_write.json
+  ]
+
   ecs_cluster_name = module.ecs_cluster.cluster_name
   ecs_service_name = module.ecs_cluster.service_name
-  ecr_repo_url = aws_ecr_repository.this.repository_url
-  ecr_repo_arn = aws_ecr_repository.this.arn
+  # ecr_repo_url = aws_ecr_repository.this.repository_url
+  # ecr_repo_arn = aws_ecr_repository.this.arn
+
 }

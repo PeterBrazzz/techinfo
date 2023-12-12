@@ -17,16 +17,6 @@ data "aws_iam_policy_document" "ecr_write" {
     ]
     resources = [var.ecr_repo_arn]
   }
-  # dynamic "statement" {
-  #   for_each = aws_ecr_repository.this.encryption_configuration[0].kms_key != "" ? [true] : []
-  #   content {
-  #     actions = [
-  #       "kms:GenerateDataKey",
-  #       "kms:Encrypt"
-  #     ]
-  #     resources = [aws_ecr_repository.this.encryption_configuration[0].kms_key]
-  #   }
-  # }
 }
 
 data "aws_iam_policy_document" "ecr_read" {
@@ -44,11 +34,4 @@ data "aws_iam_policy_document" "ecr_read" {
     ]
     resources = [var.ecr_repo_arn]
   }
-  # dynamic "statement" {
-  #   for_each = aws_ecr_repository.this.encryption_configuration[0].kms_key != "" ? [true] : []
-  #   content {
-  #     actions   = ["kms:Decrypt"]
-  #     resources = [aws_ecr_repository.this.encryption_configuration[0].kms_key]
-  #   }
-  # }
 }

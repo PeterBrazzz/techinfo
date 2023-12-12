@@ -92,3 +92,9 @@ resource "aws_iam_role_policy" "code_pipeline_build" {
   role   = aws_iam_role.code_pipeline.id
   policy = data.aws_iam_policy_document.code_pipeline_build.json
 }
+
+resource "aws_iam_role_policy" "code_pipeline_deploy_ecs" {
+  name   = "pipeline-deploy-ecs"
+  role   = aws_iam_role.code_pipeline.id
+  policy = data.aws_iam_policy.deploy_ecs.policy
+}

@@ -3,7 +3,7 @@ resource "aws_codepipeline" "this" {
   role_arn = aws_iam_role.code_pipeline.arn
 
   artifact_store {
-    location = var.artifact_bucket_id
+    location = var.artifact_bucket.bucket_id
     type     = "S3"
     dynamic "encryption_key" {
       for_each = local.s3.encrypted ? [true] : []

@@ -7,14 +7,9 @@ variable "name_prefix" {
   }
 }
 
-variable "artifact_bucket_id" {
-  type        = string
-  description = "Artifact bucket ID."
-}
-
-variable "artifact_bucket_arn" {
-  type        = string
-  description = "Artifact bucket ARN."
+variable "artifact_bucket" {
+  type    = map(string)
+  default = {}
 }
 
 variable "code_build_vpc_id" {
