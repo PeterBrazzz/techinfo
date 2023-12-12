@@ -7,42 +7,28 @@ variable "name_prefix" {
   }
 }
 
-variable "env_name" {
-  type        = string
-  description = "Environment name"
-  default     = "latest"
-}
-
 variable "artifact_bucket" {
   type    = map(string)
   default = {}
 }
 
-#######
-# VPC #
-#######
-
-variable "vpc_id" {
+variable "code_build_vpc_id" {
   type        = string
-  description = "VPC ID where resources are created."
+  description = "VPC ID where CodeBuild resources are created."
   validation {
-    condition     = length(compact([null, "", var.vpc_id])) > 0
-    error_message = "VPC id must not be empty."
+    condition     = length(compact([null, "", var.code_build_vpc_id])) > 0
+    error_message = "CodeBuild VPC id must not be empty."
   }
 }
 
-variable "vpc_subnets" {
-  type = list(string)
-  description = "VPC subnets configuration."
+variable "code_build_subnet_ids" {
+  type        = list(string)
+  description = "List of subnet IDs where Code Build will be hosted."
   validation {
-    condition     = var.vpc_subnets != null
-    error_message = "VPC subnets configuration must not be empty."
+    condition     = length(var.code_build_subnet_ids) > 0
+    error_message = "List of subnet IDs must not be empty."
   }
 }
-
-#########
-# CI/CD #
-#########
 
 variable "code_pipeline_source" {
   type = object({
@@ -56,45 +42,6 @@ variable "code_pipeline_source" {
     error_message = "CodePipeline source configuration must not be empty."
   }
 }
-
-#######
-# ECR #
-#######
-
-
-variable "code_build_environment_vars" {
-  type = list(
-    object({
-      name  = string
-      value = string
-    })
-  )
-  description = "A list of plaintext env variables is set to CodeBuild project."
-  default     = []
-}
-
-
-# variable "ecr_repo_url" {
-#   type = string
-#   description = "ECR repository URL."
-#     validation {
-#     condition     = var.ecr_repo_url != null
-#     error_message = "ECR repository url must not be empty."
-#   }
-# }
-
-# variable "ecr_repo_arn" {
-#   type = string
-#   description = "ECR repository ARN."
-#     validation {
-#     condition     = var.ecr_repo_arn != null
-#     error_message = "ECR repository arn must not be empty."
-#   }
-# }
-
-#######
-# ECS #
-#######
 
 variable "ecs_cluster_name" {
   type = string

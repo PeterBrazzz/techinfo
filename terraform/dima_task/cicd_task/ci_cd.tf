@@ -6,7 +6,6 @@ module "ecs_cicd" {
     bucket_arn = aws_s3_bucket.artifact.arn
     bucket_id  = aws_s3_bucket.artifact.id
   }
-
   code_build_vpc_id = data.aws_vpc.this.id
   code_build_subnet_ids = [aws_subnet.privat.id]
 
@@ -39,7 +38,4 @@ module "ecs_cicd" {
 
   ecs_cluster_name = module.ecs_cluster.cluster_name
   ecs_service_name = module.ecs_cluster.service_name
-  # ecr_repo_url = aws_ecr_repository.this.repository_url
-  # ecr_repo_arn = aws_ecr_repository.this.arn
-
 }
