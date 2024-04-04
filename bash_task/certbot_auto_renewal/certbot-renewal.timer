@@ -1,0 +1,15 @@
+# Файл /etc/systemd/system/certbot-renewal.timer
+[Unit]
+Description=Timer for Certbot Renewal
+
+[Timer]
+OnBootSec=300
+OnUnitActiveSec=1w
+
+[Install]
+WantedBy=multi-user.target
+
+#Включим таймер, чтобы он начал свой отсчёт:
+#  sudo systemctl start certbot-renewal.timer
+#Настроим автоматическое включение таймера на случай перезапуска сервера:
+#  sudo systemctl enable certbot-renewal.timer
