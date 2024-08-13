@@ -4,17 +4,15 @@ trigger:
 pool:
   name: 'local-agent'
 
-stages:
-- stage: Plan
-  displayName: 'Terraform Plan'
-  jobs:
-  - job: TerraformPlan
-    displayName: 'Terraform Plan'
-    steps:
-    - script: |
-        terraform --version
-        terraform plan -out=tfplan
-      displayName: 'Terraform Init and Plan'
+steps:
+- script: |
+    pwd
+    echo "Hello World!"
+  displayName: 'hello script'
+- script: |
+    terraform --version
+    terraform plan -out=tfplan
+  displayName: 'Terraform Init and Plan'
 
 
 
