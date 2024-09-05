@@ -257,3 +257,18 @@ k apply -f <path to plugin>
 
 k create pod super-user-pod --image=busybox:1.28 --dry-run=client -o yaml -- sleep 4800 > secretpod.yaml
 k create pod -n admin1401 secret-1401 --image=busybox --dry-run=client -o yaml -- sleep 4800 > secretpod.yaml
+
+
+
+
+SPARK
+
+source /opt/bitnami/spark/venv/bin/activate
+
+./bin/spark-submit \                                
+--class org.apache.spark.examples.SparkPi \
+--master spark://10.0.0.5:7077\
+/home/azureuser/spark-script.py 1000
+
+
+/opt/spark/bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://10.0.0.5:7077 /home/azureuser/spark-script.py 10

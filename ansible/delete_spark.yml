@@ -1,0 +1,16 @@
+- name: Delete spark.
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Delete the original file
+    file:
+      path: /tmp/spark-3.5.2-bin-hadoop3.tgz
+      state: absent
+
+  - name: Delete the /opt/spark
+    file:
+      path: /opt/spark/
+      state: absent
+
+  

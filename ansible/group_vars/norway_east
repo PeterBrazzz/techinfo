@@ -1,0 +1,3 @@
+ansible_user                    :   azureuser
+ansible_ssh_private_key_file    :   /Users/peter_brazovsky/.ssh/ansible-node3_key.pem
+ansible_python_interpreter      :   /usr/bin/python3.12

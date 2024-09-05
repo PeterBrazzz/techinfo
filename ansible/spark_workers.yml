@@ -1,0 +1,15 @@
+---
+- name: Start spark workers and connect to the master
+  hosts: spark_workers
+  become: yes
+
+  tasks:
+  - name: Copy CSV to worker servers
+    copy:
+      src: /Users/peter_brazovsky/techinfo/ansible/prod_table.csv
+      dest: /home/azureuser/prod_table.csv
+      mode: 0777
+
+  - name: Start Spark Workers.
+    shell: /opt/spark/sbin/start-worker.sh spark://10.0.0.5:7077
+

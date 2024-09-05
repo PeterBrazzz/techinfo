@@ -1,0 +1,12 @@
+[norway_east]
+master ansible_host=51.120.9.176
+worker1 ansible_host=4.235.114.53
+worker2 ansible_host=51.120.14.189
+
+[spark_master]
+master ansible_host=51.120.9.176
+
+[spark_workers]
+worker1 ansible_host=4.235.114.53
+worker2 ansible_host=51.120.14.189
+

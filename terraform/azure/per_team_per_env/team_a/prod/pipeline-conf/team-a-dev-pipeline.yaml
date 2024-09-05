@@ -8,7 +8,7 @@ steps:
 - script: |
     pwd
     whoami
-    echo "Hello World! This is a Team-A dev branch."
+    echo "Hello World! This is a Team-A prod branch."
   displayName: 'hello script'
 - script: |
     terraform --version

@@ -1,0 +1,56 @@
+- name: Install and run spark.
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: apt update
+    apt:
+      update_cache: yes
+    ignore_errors: yes
+
+  - name: Install Java Development Kit
+    apt:
+      name: default-jdk
+      state: present
+
+  - name: Install spark tar
+    get_url: 
+      url: https://dlcdn.apache.org/spark/spark-3.5.2/spark-3.5.2-bin-hadoop3.tgz
+      dest: /tmp/spark-3.5.2-bin-hadoop3.tgz
+      mode: '0777'
+
+  - name: Create a spark directory
+    file:
+      path: /opt/spark
+      state: directory
+      mode: '0777'
+
+  - name: Extract a tar.gz file
+    unarchive:
+      src: /tmp/spark-3.5.2-bin-hadoop3.tgz
+      dest: /opt/spark/
+      remote_src: yes
+
+  - name: Copy file to another directory
+    copy:
+      src: /opt/spark/spark-3.5.2-bin-hadoop3/
+      dest: /opt/spark/
+      remote_src: yes
+
+  - name: Delete the original file
+    file:
+      path: /opt/spark/spark-3.5.2-bin-hadoop3
+      state: absent
+
+  - name: Insert a line at the end of a file.
+    blockinfile:
+      dest: ~/.bashrc
+      block: | 
+        export SPARK_HOME=/opt/spark
+        export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+  - name: Reload the ~/.bashrc file
+    shell: source ~/.bashrc && echo $SPARK_HOME
+    args:
+      executable: /bin/bash
+

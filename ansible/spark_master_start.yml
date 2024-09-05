@@ -1,0 +1,21 @@
+---
+- name: Start spark master and get master URL
+  hosts: spark_master
+  become: yes
+
+  tasks:
+  - name: Start Spark Master server
+    shell: /opt/spark/sbin/start-master.sh
+    ignore_errors: yes
+
+  - name: Copy PySpark script to master server
+    copy:
+      src: /Users/peter_brazovsky/techinfo/ansible/spark-crime.py
+      dest: /home/azureuser/spark-crime.py
+      mode: 0777
+
+  - name: Copy CSV to worker servers
+    copy:
+      src: /Users/peter_brazovsky/techinfo/ansible/Crime_Data_from_2020_to_Present.csv
+      dest: /home/azureuser/Crime_Data_from_2020_to_Present.csv
+      mode: 0777

@@ -1,0 +1,22 @@
+---
+
+- name: Create cowsay file and ping the hosts
+  hosts: all
+  become: yes
+  
+  tasks:
+  - name: Create a new file in stage
+    copy:
+      dest: "/var/cowsay"
+      content: |
+        ____________ 
+        < muuuuuuuuu >
+        ------------ 
+                \   ^__^
+                 \  (oo)\_______
+                    (__)\       )\/\
+                        ||----w |
+                        ||     ||
+  - name:
+    ping:
+
